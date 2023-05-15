@@ -12,5 +12,7 @@ The goal of this project is to make a replica of ABS system through interactive 
 8. Throttle Brake Pedal
 
 Made by:
+
 Revelino Puteraiwan
+
 Diaz Wigunnar Coco
