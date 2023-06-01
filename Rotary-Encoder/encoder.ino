@@ -1,6 +1,6 @@
 // Rotary Encoder Pins
-#define PIN_ENCODER_A 2
-#define PIN_ENCODER_B 3
+#define PIN_ENCODER_A 6
+#define PIN_ENCODER_B 7
 
 // Variables to store current and previous state of the encoder
 volatile int encoderState;

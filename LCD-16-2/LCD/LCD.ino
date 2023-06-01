@@ -21,4 +21,4 @@ void loop() {
   
   lcd.clear();  // Clear the LCD after the progress bar completes
   delay(1000);  // Wait for 1 second before the next iteration (optional)
-}
+  }
