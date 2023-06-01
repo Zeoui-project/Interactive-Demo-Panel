@@ -1,35 +1,24 @@
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal.h>
 
-// Set the LCD address and dimensions
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);  // Define the LCD object and pin connections
 
 void setup() {
-  lcd.begin(16, 2);  // Initialize the LCD
-  
-  // Display a custom loading bar character
-  byte loadingBar[8] = {
-    B00000,
-    B00001,
-    B00011,
-    B00111,
-    B01110,
-    B11100,
-    B11000,
-    B10000
-  };
-  
-  lcd.createChar(0, loadingBar);  // Load the custom character
-  lcd.clear();
+  lcd.begin(16, 2);  // Initialize the LCD with 16 columns and 2 rows
+  lcd.clear();  // Clear the LCD
 }
 
 void loop() {
-  for (int i = 0; i < 16; i++) {
+  int totalProgress = 16;  // Total number of progress steps (number of columns in the LCD)
+  int delayTime = 10000 / totalProgress;  // Delay time for each progress step (10 seconds divided by the total number of progress steps)
+  
+  for (int i = 0; i < totalProgress; i++) {
     lcd.setCursor(i, 0);
-    lcd.write((byte)0);  // Display the custom character
+    lcd.setCursor(i, 1);
+    lcd.write(255);  // Display a filled block character
     
-    // Adjust the delay time according to your preference
-    delay(200);
+    delay(delayTime);  // Wait for the specified delay time
   }
   
-  lcd.clear();  // Clear the LCD after the loading sequence
+  lcd.clear();  // Clear the LCD after the progress bar completes
+  delay(1000);  // Wait for 1 second before the next iteration (optional)
 }
