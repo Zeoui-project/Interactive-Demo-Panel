@@ -12,7 +12,7 @@ void loop() {
   int delayTime = 10000 / totalProgress;  // Delay time for each progress step (10 seconds divided by the total number of progress steps)
   
   for (int i = 0; i < totalProgress; i++) {
-    lcd.setCursor(i, 0);
+    lcd.setCursor(i, 1);
     lcd.setCursor(i, 1);
     lcd.write(255);  // Display a filled block character
     
