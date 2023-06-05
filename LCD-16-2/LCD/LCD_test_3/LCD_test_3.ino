@@ -12,7 +12,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
- int encoderValue = encoder.read();
+  int encoderValue = encoder.read()/4;
+  if (encoderValue > 1) {
+    encoderValue = 1;
+  } else if (encoderValue < -1) {
+    encoderValue = -1;
+  }
 
- Serial.println(encoderValue);
+  Serial.println(encoderValue);
 }
