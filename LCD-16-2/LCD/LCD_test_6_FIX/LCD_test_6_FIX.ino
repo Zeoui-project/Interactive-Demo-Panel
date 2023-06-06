@@ -27,40 +27,22 @@ const int progressBarWidth = LCD_COLS; // Adjust according to your LCD
 void setup() {
   Serial.begin(9600);
   lcd.begin(LCD_COLS, LCD_ROWS);
-  lcd.setCursor(0, 0);
-  lcd.print("Progress: 0%");
   attachInterrupt(digitalPinToInterrupt(encoderPinA), handleEncoderInterrupt, CHANGE);
 }
 
-void loop() {
-  encoderPos = encoder.read();
-  Serial.println(encoderPos);
-  
-  if(encoderPos > 100){
-    encoder.write(100);
-  }
-  if(encoderPos < 0){
-    encoder.write(0);
-  }
-  
-  if (encoderPos != prevEncoderPos) {
-    // Update progress bar
-    int percentage = map(encoderPos, 0, 100, 0, progressBarWidth);
-    updateProgressBar(percentage);
-     
-    // Print current percentage
-    lcd.setCursor(10, 0);
-    lcd.print("     "); // Clear previous value
-    lcd.setCursor(10, 0);
-    lcd.print(percentage);
-    lcd.print("%");
-    
-    prevEncoderPos = encoderPos;
+void updateProgressBarDown(int percentage) {
+  lcd.setCursor(0, 1);
+  for (int i = 0; i < progressBarWidth; i++) {
+    if (i < percentage) {
+      lcd.write(255);
+    } else {
+      lcd.print(" ");
+    }
   }
 }
 
-void updateProgressBar(int percentage) {
-  lcd.setCursor(0, 1);
+void updateProgressBarUp(int percentage) {
+  lcd.setCursor(0, 0);
   for (int i = 0; i < progressBarWidth; i++) {
     if (i < percentage) {
       lcd.write(255);
@@ -73,4 +55,25 @@ void updateProgressBar(int percentage) {
 void handleEncoderInterrupt() {
   encoderPos += (digitalRead(encoderPinB) == HIGH) ? 1 : -1;
   encoderPos = constrain(encoderPos, 0, 100);
+}
+
+void loop() {
+  encoderPos = encoder.read();
+  
+  if(encoderPos > 100){
+    encoder.write(100);
+  }
+  if(encoderPos < 0){
+    encoder.write(0);
+  }
+  
+  if (encoderPos != prevEncoderPos) {
+    // Update progress bar
+    int percentage = map(encoderPos, 0, 100, 0, progressBarWidth);
+    Serial.println(percentage); //To check
+    updateProgressBarDown(percentage);
+    updateProgressBarUp(percentage);
+    
+    prevEncoderPos = encoderPos;
+  }
 }
