@@ -57,15 +57,19 @@ void handleEncoderInterrupt() {
   encoderPos = constrain(encoderPos, 0, 100);
 }
 
-void loop() {
-  encoderPos = encoder.read();
-  
+void limitEncoder(){
   if(encoderPos > 100){
     encoder.write(100);
   }
   if(encoderPos < 0){
     encoder.write(0);
   }
+}
+
+void loop() {
+  encoderPos = encoder.read();
+  
+  limitEncoder();
   
   if (encoderPos != prevEncoderPos) {
     // Update progress bar
